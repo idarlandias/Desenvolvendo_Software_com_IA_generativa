@@ -1,26 +1,16 @@
-# Virtual environment
+# Ignore everything by default
+*
+
+# Allow the gitignore itself
+!.gitignore
+
+# Allow the labs directory and specifically our notebook
+!labs/
+labs/*
+!labs/01-agent-cli-tool-use.ipynb
+
+# Ignore environment/local files regardless
 .venv/
 .venv
-
-# Local environment variables
 .env
-.env.local
 .env.*
-
-# Python caches
-__pycache__/
-*.py[cod]
-*$py.class
-.pytest_cache/
-.ruff_cache/
-.ipynb_checkpoints/
-
-# Data and large files
-data/chroma/
-data/cache/
-data/corpus/
-*.log
-*.zip
-*.tar.gz
-*.pth
-*.best.pth
