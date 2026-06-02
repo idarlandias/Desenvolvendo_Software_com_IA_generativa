@@ -30,7 +30,39 @@ Implementação de um agente inteligente executado via terminal capaz de tomar d
 
 ---
 
+## 🔄 Fluxo de Execução (Diagrama de Sequência)
+
+Abaixo está representado o fluxo sequencial de execução do agente implementado no **LAB-001** ao responder a uma consulta de duas ferramentas combinadas:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Usuário
+    participant Agent as Agente (Python Loop)
+    participant LLM as LLM (Gemini API)
+    participant Tool as Ferramenta Local (Calculator / Doc)
+
+    User->>Agent: "Calcule 25% de 480 e me explique pydantic"
+    Agent->>LLM: Envia Mensagens + Schema das Tools
+    Note over LLM: LLM decide chamar a calculadora
+    LLM-->>Agent: Requisição de Tool Call: calculator(expression="0.25 * 480")
+    Agent->>Tool: Executa calculator("0.25 * 480")
+    Tool-->>Agent: Retorno da ferramenta: "120.0"
+    Agent->>LLM: Envia histórico + Tool Result ("120.0")
+    Note over LLM: LLM decide buscar a documentação
+    LLM-->>Agent: Requisição de Tool Call: lookup_doc(term="pydantic")
+    Agent->>Tool: Executa lookup_doc("pydantic")
+    Tool-->>Agent: Retorno da ferramenta: "Pydantic valida payload..."
+    Agent->>LLM: Envia histórico + Tool Result ("Pydantic valida...")
+    Note over LLM: LLM conclui que tem todas as respostas
+    LLM-->>Agent: Resposta final compilada (Texto livre)
+    Agent-->>User: "25% de 480 é 120. Pydantic é uma biblioteca..."
+```
+
+---
+
 ## 🛡️ Organização do Repositório
+
 
 Para manter o repositório limpo, focado e profissional para portfólio, apenas os arquivos essenciais de entrega são rastreados publicamente, enquanto o ambiente virtual (`.venv`), chaves de segurança (`.env`) e os PDFs brutos de slides e guias permanecem protegidos localmente.
 
