@@ -4,6 +4,10 @@
 # Allow the gitignore itself
 !.gitignore
 
+# Allow the README
+!README.md
+
+
 # Allow the labs directory and specifically our notebook
 !labs/
 labs/*
