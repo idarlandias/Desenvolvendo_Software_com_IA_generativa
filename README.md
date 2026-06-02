@@ -30,7 +30,45 @@ Implementação de um agente inteligente executado via terminal capaz de tomar d
 
 ---
 
+## 🎨 Arquitetura do Loop do Agente (Fluxo Colorido)
+
+Este fluxograma colorido ilustra como as requisições transitam entre o loop local de Python e a API de LLM durante o processamento das ferramentas:
+
+```mermaid
+flowchart TD
+    USER([Usuário]) -->|1. Envia Query| AGENT[Agente CLI]
+    AGENT -->|2. Prompt + Tools| GEMINI{Google Gemini}
+    
+    GEMINI -->|3a. Precisa de Tool?| CALLS[Lista de Tool Calls]
+    GEMINI -->|3b. Não precisa| RESP[Resposta Final]
+    
+    CALLS -->|4. Roteamento| REGISTRY{TOOL_REGISTRY}
+    REGISTRY -->|calculator| CALC[Calculadora local]
+    REGISTRY -->|lookup_doc| DOC[Buscador de Docs]
+    
+    CALC -->|5. Retorno string| MERGE[Resultados das Tools]
+    DOC -->|5. Retorno string| MERGE
+    
+    MERGE -->|6. Role: Tool| AGENT
+    
+    RESP -->|7. Resposta Completa| USER
+
+    %% Estilos Coloridos Personalizados
+    style USER fill:#f3e8ff,stroke:#a855f7,stroke-width:2px,color:#581c87
+    style AGENT fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#0369a1
+    style GEMINI fill:#fef9c3,stroke:#ca8a04,stroke-width:2px,color:#854d0e
+    style CALLS fill:#fee2e2,stroke:#ef4444,stroke-width:2px,color:#991b1b
+    style REGISTRY fill:#e0e7ff,stroke:#4f46e5,stroke-width:2px,color:#3730a3
+    style CALC fill:#dcfce7,stroke:#22c55e,stroke-width:2px,color:#15803d
+    style DOC fill:#dcfce7,stroke:#22c55e,stroke-width:2px,color:#15803d
+    style MERGE fill:#ffedd5,stroke:#f97316,stroke-width:2px,color:#c2410c
+    style RESP fill:#fce7f3,stroke:#ec4899,stroke-width:2px,color:#9d174d
+```
+
+---
+
 ## 🔄 Fluxo de Execução (Diagrama de Sequência)
+
 
 Abaixo está representado o fluxo sequencial de execução do agente implementado no **LAB-001** ao responder a uma consulta de duas ferramentas combinadas:
 
