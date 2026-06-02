@@ -1,0 +1,26 @@
+# Virtual environment
+.venv/
+.venv
+
+# Local environment variables
+.env
+.env.local
+.env.*
+
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Data and large files
+data/chroma/
+data/cache/
+data/corpus/
+*.log
+*.zip
+*.tar.gz
+*.pth
+*.best.pth
