@@ -12,6 +12,7 @@
 !labs/
 labs/*
 !labs/01-agent-cli-tool-use.ipynb
+!labs/explicacao_lab_001.md
 
 # Ignore environment/local files regardless
 .venv/
