@@ -4,7 +4,22 @@ Este guia detalha o funcionamento técnico, os conceitos fundamentais e as escol
 
 ---
 
-## 1. O que é Tool-Use (Function Calling)?
+## 1. O que é um Agente CLI Single-Turn com Tool-Use?
+
+Para compreender a arquitetura proposta no laboratório, vamos destrinchar os três pilares desse conceito:
+
+* **Agente (Agent):** Diferente de uma LLM clássica e passiva (que apenas responde com texto a um prompt estático), um agente é um sistema ativo. Ele é composto por:
+  1. **O Cérebro (LLM):** Responsável por tomar as decisões lógicas de qual rumo seguir.
+  2. **As Ferramentas (Tools):** Códigos executáveis na máquina local (como a nossa calculadora Python ou a busca no corpus).
+  3. **O Orquestrador (Código Python):** O corpo do agente. É o loop em código que gerencia a conversa, chama as funções de fato e devolve os dados para a LLM.
+* **CLI (Command Line Interface):** Indica o meio físico de execução. O agente roda a partir de entradas de linha de comando no terminal/console, exibindo logs estruturados em tempo real.
+* **Single-Turn (Turno Único):** Representa uma divisão importante de perspectivas:
+  * **Perspectiva do Usuário:** A interação é de **Turno Único**. O usuário envia uma única pergunta e recebe uma única resposta limpa e direta.
+  * **Perspectiva do Sistema (Sob o capô):** A interação é de **Múltiplos Turnos**. O orquestrador realiza um loop iterativo ("conversa em segundo plano") alimentando a LLM com resultados sucessivos de ferramentas até que o modelo declare que possui os dados suficientes para encerrar o ciclo.
+
+---
+
+## 2. O que é Tool-Use (Function Calling)?
 
 Tradicionalmente, Modelos de Linguagem (LLMs) geram texto de forma probabilística. Elas não conseguem calcular de forma confiável contas matemáticas complexas ou buscar dados privados que não estavam em sua base histórica de treinamento.
 
@@ -15,7 +30,7 @@ O **Tool-Use** resolve isso permitindo que a LLM delegue tarefas especializadas 
 
 ---
 
-## 2. Fluxo de Vida do Agente (Sequence Diagram)
+## 3. Fluxo de Vida do Agente (Sequence Diagram)
 
 Aqui está como a conversa se desenvolve passo a passo em uma iteração típica do agente:
 
@@ -40,7 +55,7 @@ sequenceDiagram
 
 ---
 
-## 3. Componentes Estruturais do Código
+## 4. Componentes Estruturais do Código
 
 ### A. Schemas JSON (`TOOLS`)
 Para que o Gemini conheça a existência de uma ferramenta e saiba como usá-la, descrevemos seus metadados no padrão JSON Schema. O campo `description` é essencial: a LLM lê essa descrição para decidir semanticamente se a ferramenta é adequada para a requisição.
@@ -65,7 +80,7 @@ Isso permite a chamada dinâmica através de: `TOOL_REGISTRY[fn_name](**args)`.
 
 ---
 
-## 4. Comparativo Direto de Tradeoffs
+## 5. Comparativo Direto de Tradeoffs
 
 | Aspecto | Abordagem Pure-Prompt | Abordagem Tool-Use (Agente) |
 | :--- | :--- | :--- |
@@ -76,7 +91,7 @@ Isso permite a chamada dinâmica através de: `TOOL_REGISTRY[fn_name](**args)`.
 
 ---
 
-## 5. Como funciona a Visualização HTML Premium?
+## 6. Como funciona a Visualização HTML Premium?
 
 Quando chamamos `display(HTML(html_content))` no notebook, o Jupyter intercepta e renderiza a saída em HTML estilizado.
 
